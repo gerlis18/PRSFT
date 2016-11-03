@@ -3,10 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Sena1/Documents/NetBeansProjects/PRSFT/src/prsft/vista/InvCompras.java</file>
-            <file>file:/C:/Users/Sena1/Documents/NetBeansProjects/PRSFT/src/prsft/modelo/DAOProveedor.java</file>
-            <file>file:/C:/Users/Sena1/Documents/NetBeansProjects/PRSFT/src/prsft/modelo/Conexion.java</file>
-            <file>file:/C:/Users/Sena1/Documents/NetBeansProjects/PRSFT/src/prsft/controlador/ControladorProveedor.java</file>
+            <file>file:/C:/Users/Win%2010/Documents/NetBeansProjects/PRSFT/src/prsft/vista/VCompra.java</file>
+            <file>file:/C:/Users/Win%2010/Documents/NetBeansProjects/PRSFT/src/prsft/vista/VUsuario.java</file>
+            <file>file:/C:/Users/Win%2010/Documents/NetBeansProjects/PRSFT/src/prsft/controlador/ControladorUsuario.java</file>
+            <file>file:/C:/Users/Win%2010/Documents/NetBeansProjects/PRSFT/src/prsft/modelo/DAOcompras.java</file>
+            <file>file:/C:/Users/Win%2010/Documents/NetBeansProjects/PRSFT/src/prsft/controlador/ControladorCompra.java</file>
         </group>
     </open-files>
 </project-private>

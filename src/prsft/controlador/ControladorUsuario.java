@@ -28,7 +28,8 @@ public class ControladorUsuario implements ActionListener {
     }
 
     /**
-     * Metodo Constructor 1 de la clase ControladorUsuario 
+     * Metodo Constructor 1 de la clase ControladorUsuario
+     *
      * @param vista Intefaz
      */
     public ControladorUsuario(VUsuario vista) {
@@ -39,6 +40,7 @@ public class ControladorUsuario implements ActionListener {
 
     /**
      * Metodo Constructor 2 de la clase ControladorUsuario
+     *
      * @param vista
      * @param modelo
      */
@@ -61,7 +63,6 @@ public class ControladorUsuario implements ActionListener {
         eventoJCombo(modelo);
     }
 
-
     /**
      * Meotodo encargado de bloquear componentes
      */
@@ -72,6 +73,7 @@ public class ControladorUsuario implements ActionListener {
 
     /**
      * Metodo encargado de mostrar nombre de usuario en JComboBox
+     *
      * @param modelo Modelo DAO
      */
     public void eventoJCombo(DAOUsuario modelo) {
@@ -100,6 +102,7 @@ public class ControladorUsuario implements ActionListener {
 
     /**
      * Metodo encargado de retornar nombre de usuario de un JTextField
+     *
      * @return Nombre de usuario
      */
     public String getNombre() {
@@ -108,6 +111,7 @@ public class ControladorUsuario implements ActionListener {
 
     /**
      * Metodo encargado de retornar tipo de identificacion de un JTextField
+     *
      * @return Tipo de identificacion
      */
     public String getTipoID() {
@@ -117,6 +121,7 @@ public class ControladorUsuario implements ActionListener {
 
     /**
      * Metodo encargado de retornar rol de usuario de un JTextField
+     *
      * @return Rol de usuario
      */
     public String getRol() {
@@ -126,6 +131,7 @@ public class ControladorUsuario implements ActionListener {
 
     /**
      * Metodo encargado de retornar numero de identificacion de un JTextField
+     *
      * @return Numero de identificacion de usuario
      */
     public String getID() {
@@ -134,6 +140,7 @@ public class ControladorUsuario implements ActionListener {
 
     /**
      * Metodo encargado de retornar email de usuario de un JTextField
+     *
      * @return Email de usuario
      */
     public String getCorreo() {
@@ -142,6 +149,7 @@ public class ControladorUsuario implements ActionListener {
 
     /**
      * Metodo encargado de retornar contraseña de usuario de un JTextField
+     *
      * @return Contraseña de usuario
      */
     public String getContraseña() {
@@ -150,6 +158,7 @@ public class ControladorUsuario implements ActionListener {
 
     /**
      * Metodo encargado de retornar numero de telefono de un JTextField
+     *
      * @return Numero de telefono de usuario
      */
     public String getTelefono() {
@@ -166,11 +175,12 @@ public class ControladorUsuario implements ActionListener {
         vista.txtRpass.setText("");
         vista.txtPass.setText("");
         vista.txttelefono.setText("");
-        vista.jcBuscar.setSelectedIndex(0);
+        vista.jcBuscar.setSelectedItem("");
     }
 
     /**
      * Metodo encargado de validar los campos de la interfaz usuario
+     *
      * @return True si los campos requeridos no estan vacios
      */
     public boolean valida() {
@@ -205,10 +215,11 @@ public class ControladorUsuario implements ActionListener {
         }
         return valida;
     }
-    
+
     /**
      * Metodo que valida ciertos campos de la interfaz
-     * @return true 
+     *
+     * @return true
      */
     public boolean valida1() {
         boolean valida = false;
@@ -237,12 +248,9 @@ public class ControladorUsuario implements ActionListener {
         return valida;
     }
 
-
-    
-       
-
     /**
      * Metodo encargado de los eventos de la interfaz usuario
+     *
      * @param e Objeto ActionEvent
      */
     @Override
@@ -276,23 +284,22 @@ public class ControladorUsuario implements ActionListener {
 
         if (e.getSource() == vista.btnGuardar) {
             boolean valida = false;
-            if (valida1()==true) {
+            if (valida1() == true) {
                 vista.btnAgregar.setEnabled(false);
-            int resp = JOptionPane.showConfirmDialog(vista, "¿Desea modifcar usuario?", "Modificar", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
-            if (resp == JOptionPane.OK_OPTION) {
-                String nom = getNombre();
-                String tpid = getTipoID();
-                String rol = getRol();
-                String id = getID();
-                String email = getCorreo();
-                String pass = getContraseña();
-                String tel = getTelefono();
-                modelo.modificarUsuario(nom, tpid, id, rol, tel, email);
-                limpiarCampos();
-                vista.jLvpass.setText(null);
+                int resp = JOptionPane.showConfirmDialog(vista, "¿Desea modifcar usuario?", "Modificar", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+                if (resp == JOptionPane.OK_OPTION) {
+                    String nom = getNombre();
+                    String tpid = getTipoID();
+                    String rol = getRol();
+                    String id = getID();
+                    String email = getCorreo();
+                    String pass = getContraseña();
+                    String tel = getTelefono();
+                    modelo.modificarUsuario(nom, tpid, id, rol, tel, email);
+                    limpiarCampos();
+                    vista.jLvpass.setText(null);
+                }
             }
-            }
-            
 
         }
 
