@@ -16,7 +16,7 @@ public class Conexion {
 
     private static final String servidor = "jdbc:mysql://localhost:3306/sistemabd";
     private static final String user = "root";
-    private static final String pass = "300ger1771lis";
+    private static final String pass = "123456";
     private static final String driver = "com.mysql.jdbc.Driver";
     private static Connection conexion = null;
 
