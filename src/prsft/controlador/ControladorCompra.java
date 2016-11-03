@@ -363,24 +363,28 @@ public class ControladorCompra implements ActionListener {
                             modelo.registrarDetalleCompra(codCompra, codProducto, Cantidad, precioCompra, precioVenta);
                             new DAOProducto().actualizarProducto(codProducto, precioCompra, precioVenta, Cantidad);
                         } else {
-                            for (int i = 0; i < list.size(); i++) {
-                                Object[] array = list.toArray();
-                                if (array[i] == array[i + 2 - 1]) {
+                            Object[] array = list.toArray();
+                            String code = String.valueOf(array);
+                            for (int i = 0; i < array.length; i++) {
+                                
+                                if (codProducto.equals(array[i].toString())) {
 
                                     codigo = array[i].toString();
+                                    System.err.println(codigo);
 
                                 }
+                            }
                                 if (codProducto.equals(codigo)) {
 
-                                    System.err.println(array[i]);
-
+                                    System.err.println("Estoy entrando en el 1ro");
                                     modelo.actualizarProducto(codigo, Integer.parseInt(Cantidad));
                                     modelo.registrarDetalleCompra(codCompra, codProducto, Cantidad, precioCompra, precioVenta);
                                 } else {
+                                    System.err.println("Estoy en el 2do");
                                     modelo.registrarDetalleCompra(codCompra, codProducto, Cantidad, precioCompra, precioVenta);
                                     new DAOProducto().actualizarProducto(codProducto, precioCompra, precioVenta, Cantidad);
                                 }
-                            }
+                            
                         }
                     }
                     limpiar();
