@@ -5,12 +5,11 @@
  */
 package prsft.modelo;
 
-import prsft.utils.GenerarIdVenta;
-import prsft.vista.VCompra;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
@@ -19,6 +18,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+import prsft.utils.GenerarIdVenta;
+import prsft.vista.VCompra;
 
 /**
  * Clase encargada de toda la gestion de la interfaz <i>VCompra</i>
@@ -33,6 +34,9 @@ public class DAOcompras {
     PreparedStatement pst;
     ResultSet rs;
     DefaultTableModel model;
+
+    //CONSULTAS SQL
+    String SQL_SEARCH_PRODS = "SELECT * from detallecompra";
 
     public DAOcompras() throws InstantiationException, IllegalAccessException {
         cn = new Conexion();
@@ -93,7 +97,7 @@ public class DAOcompras {
      * @param tbproducto Tabla para productos
      * @param buscar JComboBox para buscar productos por su nombre
      */
-    public void cargar(JTable tbproducto, JComboBox buscar) {
+    public void cargar(JTable tbproducto, JComboBox buscar, boolean valida) {
         model = new DefaultTableModel();
         model.addColumn("Codigo");
         model.addColumn("Nombre");
@@ -107,11 +111,23 @@ public class DAOcompras {
             String[] datos = new String[5];
             pst = con.prepareStatement(consultar);
             rs = pst.executeQuery();
-            while (rs.next()) {
-                datos[0] = rs.getString("codProducto");
-                datos[1] = rs.getString("nomProducto");
-                datos[2] = "0.0";
-                model.addRow(datos);
+            if (valida == true) {
+                while (rs.next()) {
+                    datos[0] = rs.getString("codProducto");
+                    datos[1] = rs.getString("nomProducto");
+                    datos[2] = "0";
+                    datos[3] = rs.getString("precioCompra");
+                    datos[4] = rs.getString("precioProducto");
+                    //datos[5] = "0.0";
+                    model.addRow(datos);
+                }
+            } else if (valida == false) {
+                while (rs.next()) {
+                    datos[0] = rs.getString("codProducto");
+                    datos[1] = rs.getString("nomProducto");
+                    datos[2] = "0.0";
+                    model.addRow(datos);
+                }
             }
         } catch (SQLException | NullPointerException ex) {
             JOptionPane.showMessageDialog(vista, ex.getMessage());
@@ -252,7 +268,79 @@ public class DAOcompras {
                 Logger.getLogger(DAOcompras.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-
     }
 
+    /**
+     * Metodo encargado de buscar todos los codigos de productos de la tabla
+     * productos
+     *
+     * @return Lista de codigos de productos
+     */
+    public ArrayList codigos() {
+        ArrayList codigos = new ArrayList();
+        try {
+            pst = con.prepareStatement(SQL_SEARCH_PRODS);
+            rs = pst.executeQuery();
+            while (rs.next()) {
+                if ("".equals(rs.getString("productos_codProducto"))) {
+                    codigos = null;
+                } else {
+                    codigos.add(rs.getString("productos_codProducto"));
+                }
+            }
+            System.out.println(codigos);
+        } catch (SQLException ex) {
+            Logger.getLogger(DAOcompras.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                pst.close();
+                rs.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(DAOcompras.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return codigos;
+    }
+
+    /**
+     * Metodo encargado de actualizar la cantidad del producto luego de una
+     * compra con el mismo id de producto
+     *
+     * @param codProducto Codigo de Producto
+     * @param cantProducto Cantidad de producto
+     */
+    public void actualizarProducto(String codProducto, int cantProducto) {
+        try {
+            String cantidad = "";
+            pst = con.prepareStatement("SELECT * from productos where codProducto = '" + codProducto + "' ");
+            rs = pst.executeQuery();
+            while (rs.next()) {
+                cantidad = rs.getString("cantProducto");
+            }
+
+            Integer cant = Integer.parseInt(cantidad);
+            Integer c = cant + cantProducto;
+
+            pst = con.prepareStatement("UPDATE productos SET cantProducto = ? where codProducto = '" + codProducto + "' ");
+            pst.setString(1, c.toString());
+            pst.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(DAOcompras.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                pst.close();
+                rs.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(DAOcompras.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+//    public static void main(String[] args) {
+//        try {
+//            ArrayList cd = new DAOcompras().codigos();
+//        } catch (InstantiationException | IllegalAccessException ex) {
+//            Logger.getLogger(DAOcompras.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//    }
 }

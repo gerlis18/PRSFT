@@ -5,7 +5,6 @@
  */
 package prsft.vista;
 
-
 import prsft.modelo.DAOISesion;
 import prsft.modelo.DAOUsuario;
 import java.awt.Color;
@@ -24,10 +23,9 @@ import javax.swing.UIManager;
  */
 public class VUsuario extends javax.swing.JFrame {
 
-    
     public VUsuario() throws InstantiationException, IllegalAccessException {
         initComponents();
-        
+
         btnGuardar.setEnabled(false);
         btnEliminar.setEnabled(false);
         jLreq1.setVisible(false);
@@ -37,7 +35,6 @@ public class VUsuario extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }
 
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -420,17 +417,17 @@ public class VUsuario extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtRpassKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtRpassKeyReleased
-      if(txtPass.getText().equals(txtRpass.getText())){
-           jLvpass.setForeground(Color.green);
-           jLvpass.setText("Las contraseñas coinciden");
-       }else{
+        if (txtPass.getText().equals(txtRpass.getText())) {
+            jLvpass.setForeground(Color.green);
+            jLvpass.setText("Las contraseñas coinciden");
+        } else {
             jLvpass.setForeground(Color.RED);
-           jLvpass.setText("Las contraseñas no coinciden");
+            jLvpass.setText("Las contraseñas no coinciden");
         }
     }//GEN-LAST:event_txtRpassKeyReleased
 
     private void btnAgregarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAgregarMouseClicked
-        
+
     }//GEN-LAST:event_btnAgregarMouseClicked
 
     private void jcBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcBuscarActionPerformed
@@ -459,30 +456,30 @@ public class VUsuario extends javax.swing.JFrame {
                     new DAOUsuario().cargar(txtnombre, txtid, txtcorreo, txttelefono, jCtipoid, jCrol, jcBuscar);
                     break;
             }
-            
+
         } catch (InstantiationException | IllegalAccessException | SQLException | NullPointerException ex) {
             Logger.getLogger(VUsuario.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(this, "Error: "+ex.getMessage());
+            JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
         }
     }//GEN-LAST:event_jcBuscarActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        
+
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void jMNewUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMNewUserActionPerformed
-        
+
     }//GEN-LAST:event_jMNewUserActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-    
+
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void jCrolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCrolActionPerformed
-        if(jCrol.getSelectedItem().equals("Administrador")){
-           icono.setIcon(new javax.swing.ImageIcon(getClass().getResource("/prsft/imagenes/usuario/x128-administador.png")));
-        }else{
-          icono.setIcon(new javax.swing.ImageIcon(getClass().getResource("/prsft/imagenes/usuario/x128-user.png")));
+        if (jCrol.getSelectedItem().equals("Administrador")) {
+            icono.setIcon(new javax.swing.ImageIcon(getClass().getResource("/prsft/imagenes/usuario/x128-administador.png")));
+        } else {
+            icono.setIcon(new javax.swing.ImageIcon(getClass().getResource("/prsft/imagenes/usuario/x128-user.png")));
         }
     }//GEN-LAST:event_jCrolActionPerformed
 
@@ -491,20 +488,20 @@ public class VUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void jMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu1ActionPerformed
-      
+
     }//GEN-LAST:event_jMenu1ActionPerformed
 
     private void txtnombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtnombreKeyTyped
         char c = evt.getKeyChar();
-        if ((c<'a' || c>'z') && (c<'A' || c>'Z')&& (c!=(char)KeyEvent.VK_SPACE) && c!='.') {
+        if ((c < 'a' || c > 'z') && (c < 'A' || c > 'Z') && (c != (char) KeyEvent.VK_SPACE) && c != '.') {
             evt.consume();
-           // getToolkit().beep();
+            // getToolkit().beep();
         }
     }//GEN-LAST:event_txtnombreKeyTyped
 
     private void txttelefonoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txttelefonoKeyTyped
-       char c = evt.getKeyChar();
-        if (c<'0' || c>'9') {
+        char c = evt.getKeyChar();
+        if (c < '0' || c > '9') {
             evt.consume();
             //getToolkit().beep();
         }
@@ -512,9 +509,9 @@ public class VUsuario extends javax.swing.JFrame {
 
     private void txtidKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtidKeyTyped
         char c = evt.getKeyChar();
-        if (c<'0' || c>'9') {
+        if (c < '0' || c > '9') {
             evt.consume();
-           // getToolkit().beep();
+            // getToolkit().beep();
         }
     }//GEN-LAST:event_txtidKeyTyped
 
@@ -525,7 +522,7 @@ public class VUsuario extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             JFrame.setDefaultLookAndFeelDecorated(true);
@@ -534,11 +531,11 @@ public class VUsuario extends javax.swing.JFrame {
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(VUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-    //</editor-fold>
-    //</editor-fold>
-    //</editor-fold>
-    //</editor-fold>
-    
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+
         //</editor-fold>
         //</editor-fold>
 

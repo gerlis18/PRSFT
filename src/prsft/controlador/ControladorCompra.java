@@ -1,4 +1,3 @@
-
 package prsft.controlador;
 
 import prsft.modelo.DAOProducto;
@@ -25,6 +24,7 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  * Clase Controladora de la vista Compra
+ *
  * @author Gerlis Alvarez C.
  * @author Jose Salgado O.
  */
@@ -38,6 +38,7 @@ public class ControladorCompra implements ActionListener {
 
     /**
      * Metodo Constructor 1 de la clase ControladorCompra
+     *
      * @param vista Interfaz VCompra
      * @param modelo Clase DAO
      */
@@ -60,21 +61,22 @@ public class ControladorCompra implements ActionListener {
 
     /**
      * Metodo Constructor 2 de la clase ControladorCompra
+     *
      * @param vista Interfaz
      */
     public ControladorCompra(VCompra vista) {
         this.vista = vista;
     }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////7    
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////7
     /**
-     *Metodo para sumar el precio de cada producto al total
+     * Metodo para sumar el precio de cada producto al total
      */
     public void sumarPrecio() {
         Double aux = 0.0;
         Double sumar = 0.0;
         for (int i = 0; i < vista.tbproducto.getRowCount(); i++) {
-            String valort = vista.tbproducto.getValueAt(i, 4).toString();
+            String valort = vista.tbproducto.getValueAt(i, 5).toString();
             sumar = Double.parseDouble(valort);
             Double sm = 0.0;
             sm = sm + sumar;
@@ -83,9 +85,10 @@ public class ControladorCompra implements ActionListener {
         vista.txtValorTotal.setText(aux.toString());
     }
 
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////77 
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////77
     /**
      * Se encarga de restar precio en la vista Compra
+     *
      * @param fila Fila seleccionada
      */
     public void restarPrecio(int fila) {
@@ -99,7 +102,7 @@ public class ControladorCompra implements ActionListener {
         removerProducto();
     }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////77     
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////77
     /**
      * Metodo que se encarga de Multiplicar la cantidad de cada producto
      */
@@ -115,9 +118,10 @@ public class ControladorCompra implements ActionListener {
         }
     }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////777     
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////777
     /**
      * Se encarga de retornar la fecha actual del sistema
+     *
      * @return Fecha actual
      */
     public static String fechaActual() {
@@ -126,7 +130,7 @@ public class ControladorCompra implements ActionListener {
         return ft.format(fecha);
     }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////77       
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////77
     /**
      * Metodo para remover el producto de la tabla productos
      */
@@ -136,7 +140,7 @@ public class ControladorCompra implements ActionListener {
         }
     }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////777777 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////777777
     /**
      * Metodo para limpiar los campos de la vista compras
      */
@@ -153,7 +157,7 @@ public class ControladorCompra implements ActionListener {
 
     }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////7 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////7
     /**
      * Metodo para mostrar datos en la tabla
      */
@@ -184,10 +188,10 @@ public class ControladorCompra implements ActionListener {
         });
     }
 
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////77        
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////77
     /**
      * Se encarga de controlar los eventos de la vista Compra
+     *
      * @param e Objeto ActionEvent
      */
     @Override
@@ -195,13 +199,16 @@ public class ControladorCompra implements ActionListener {
         if (e.getSource() == vista.buscar) {
             int i = 0;
             try {
-                modelo.cargar(vista.tbproducto, vista.buscar);
                 int ct, c;
-                for (i = 0; i < vista.tbproducto.getRowCount(); i++) {
+                String cant = "";
+                ArrayList prods = modelo.codigos();
+                Object obj = modelo.codigos();
+                String array = String.valueOf(obj);
+                if (array.equals("[]")) {
+                    modelo.cargar(vista.tbproducto, vista.buscar, false);
                     String cod = vista.tbproducto.getValueAt(i, 0).toString();
                     String nom = vista.tbproducto.getValueAt(i, 1).toString();
-
-                    String cant = JOptionPane.showInputDialog(vista, "Ingrese Cantidad");
+                    cant = JOptionPane.showInputDialog(vista, "Ingrese Cantidad");
                     vista.tbproducto.setValueAt(cant, i, 2);
 
                     String precioCompra = JOptionPane.showInputDialog(vista, "Ingrese Precio de Compra del producto");
@@ -209,9 +216,7 @@ public class ControladorCompra implements ActionListener {
 
                     String precioVenta = JOptionPane.showInputDialog(vista, "Ingrese precio de Venta");
                     vista.tbproducto.setValueAt(precioVenta, i, 4);
-
                     multCant();
-
                     c = Integer.parseInt(cant);
                     model = new DefaultTableModel();
                     if (cant.equals("") || cant.equals("0")) {
@@ -223,13 +228,70 @@ public class ControladorCompra implements ActionListener {
                         DTOcompras vt = new DTOcompras(cod, nom, cant, precioCompra, precioVenta, vTotal);
                         lista.add(vt);
                     }
+                }
 
+                String cod = "";
+                String nom = "";
+                String codigo = "";
+                for (Object prod : prods) {
+                    String cods = String.valueOf(prod);
+                    modelo.cargar(vista.tbproducto, vista.buscar, false);
+                    cod = vista.tbproducto.getValueAt(i, 0).toString();
+                    nom = vista.tbproducto.getValueAt(i, 1).toString();
+                    if (prod.equals(cod)) {
+                        codigo = prod.toString();
+                    }
+                }
+                if (!codigo.equals(cod)) {
+                    System.err.println("Estoy entrando por el segundo si con el codigo " + codigo);
+                    cant = JOptionPane.showInputDialog(vista, "Ingrese Cantidad");
+                    vista.tbproducto.setValueAt(cant, i, 2);
+
+                    String pCompra = JOptionPane.showInputDialog(vista, "Ingrese Precio de Compra del producto");
+                    vista.tbproducto.setValueAt(pCompra, i, 3);
+
+                    String pVenta = JOptionPane.showInputDialog(vista, "Ingrese precio de Venta");
+                    vista.tbproducto.setValueAt(pVenta, i, 4);
+                    multCant();
+                    c = Integer.parseInt(cant);
+                    model = new DefaultTableModel();
+                    if (cant.equals("") || cant.equals("0")) {
+                        removerProducto();
+                        //modelo.removerProducto(i);
+                        JOptionPane.showMessageDialog(vista, "Error");
+                    } else {
+                        String vTotal = vista.tbproducto.getValueAt(i, 5).toString();
+                        DTOcompras vt = new DTOcompras(cod, nom, cant, pCompra, pVenta, vTotal);
+                        lista.add(vt);
+                    }
+                } else {
+                    //JOptionPane.showMessageDialog(vista, prod);
+                    modelo.cargar(vista.tbproducto, vista.buscar, true);
+                    String code = vista.tbproducto.getValueAt(i, 0).toString();
+                    String name = vista.tbproducto.getValueAt(i, 1).toString();
+                    cant = JOptionPane.showInputDialog(vista, "Ingrese Cantidad");
+                    vista.tbproducto.setValueAt(cant, i, 2);
+
+                    String precioCompra = vista.tbproducto.getValueAt(i, 3).toString();
+                    String precioVenta = vista.tbproducto.getValueAt(i, 4).toString();
+                    multCant();
+                    c = Integer.parseInt(cant);
+                    model = new DefaultTableModel();
+                    if (cant.equals("") || cant.equals("0")) {
+                        removerProducto();
+                        //modelo.removerProducto(i);
+                        JOptionPane.showMessageDialog(vista, "Error");
+                    } else {
+                        String vTotal = vista.tbproducto.getValueAt(i, 5).toString();
+                        DTOcompras vt = new DTOcompras(code, name, cant, precioCompra, precioVenta, vTotal);
+                        lista.add(vt);
+                    }
                 }
                 mostrar();
                 sumarPrecio();
 
             } catch (NumberFormatException | HeadlessException ex) {
-                Logger.getLogger(ControladorCompra.class.getName()).log(Level.SEVERE,null,ex);
+                Logger.getLogger(ControladorCompra.class.getName()).log(Level.SEVERE, null, ex);
                 JOptionPane.showMessageDialog(vista, "Inserte numeros");
                 removerProducto();
             }
@@ -279,28 +341,53 @@ public class ControladorCompra implements ActionListener {
                 j++;
             }
             try {
-                if (vista.tbproducto.getRowCount()==0) {
+                if (vista.tbproducto.getRowCount() == 0) {
                     JOptionPane.showMessageDialog(vista, "Error!, Rellene Campos");
-                }else{
+                } else {
+                    ArrayList list = modelo.codigos();
                     String codCompra = "", Proveedor = "", fecha = "", codProducto = "", Cantidad = "", precioCompra = "", valorTotal = "", precioVenta = "";
                     codCompra = vista.txtIdCompra.getText();
                     Proveedor = vista.getidp();
                     fecha = vista.txtFecha.getText();
                     valorTotal = vista.txtValorTotal.getText();
+                    String codigo = "";
                     modelo.registrarCompra(codCompra, Proveedor, valorTotal, fecha);
                     for (int f = 0; f < vista.tbproducto.getRowCount(); f++) {
                         codProducto = vista.tbproducto.getValueAt(f, 0).toString();
                         Cantidad = vista.tbproducto.getValueAt(f, 2).toString();
                         precioCompra = vista.tbproducto.getValueAt(f, 3).toString();
                         precioVenta = vista.tbproducto.getValueAt(f, 4).toString();
-                        modelo.registrarDetalleCompra(codCompra, codProducto, Cantidad, precioCompra, precioVenta);
-                        new DAOProducto().actualizarProducto(codProducto, precioCompra, precioVenta, Cantidad);
+                        Object object = list;
+                        String obj = String.valueOf(object);
+                        if ("[]".equals(obj)) {
+                            modelo.registrarDetalleCompra(codCompra, codProducto, Cantidad, precioCompra, precioVenta);
+                            new DAOProducto().actualizarProducto(codProducto, precioCompra, precioVenta, Cantidad);
+                        } else {
+                            for (int i = 0; i < list.size(); i++) {
+                                Object[] array = list.toArray();
+                                if (array[i] == array[i + 2 - 1]) {
+
+                                    codigo = array[i].toString();
+
+                                }
+                                if (codProducto.equals(codigo)) {
+
+                                    System.err.println(array[i]);
+
+                                    modelo.actualizarProducto(codigo, Integer.parseInt(Cantidad));
+                                    modelo.registrarDetalleCompra(codCompra, codProducto, Cantidad, precioCompra, precioVenta);
+                                } else {
+                                    modelo.registrarDetalleCompra(codCompra, codProducto, Cantidad, precioCompra, precioVenta);
+                                    new DAOProducto().actualizarProducto(codProducto, precioCompra, precioVenta, Cantidad);
+                                }
+                            }
+                        }
                     }
                     limpiar();
                     JOptionPane.showMessageDialog(vista, "Compra guardada correctamente");
                     new InvCompras().cargar();
+                    modelo.idCompra(vista.txtIdCompra);
                 }
-                    
 
             } catch (InstantiationException | IllegalAccessException ex) {
                 Logger.getLogger(ControladorCompra.class.getName()).log(Level.SEVERE, null, ex);
